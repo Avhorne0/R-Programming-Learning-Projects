@@ -1,0 +1,94 @@
+---
+title: "Type the assignment name here"
+author: "Type your namer here"
+date: "Type the date here"
+output:
+  word_document:
+    toc: yes
+    number_section: yes
+    highlight: tango
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+COVID19_line_list_data_csv <- read_csv("C:/Users/Aizsha Horne/Downloads/COVID19_line_list_data.csv.csv")
+# Load the necessary packages
+library(Hmisc)
+library(zoo)
+library(base)
+library(ggplot2)
+library(lmtest)
+library(dplyr)
+library(ggcorrplot)
+```
+
+# Listing all df and removing one or more of the DataFrame(df)
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+ls()
+rm(COVID19_line_list_data_csv_3FX_Goog_Algorithm_GOOG4_RSA_SHA256_X_Goog_Credential_gcp_kaggle_com_kaggle_161607_iam_gserviceaccount_com_2F20220624_2Fauto_2Fstorage_2Fgoog4_request_X_Goog_Date_20220624T133650Z_)
+```
+
+### Comments:
+*  Make your interpretations and comments here
+* 
+* 
+
+# Problem 2
+## Getting a description of 
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+describe(COVID19_line_list_data_csv) #Hmisc Command
+
+##Cleaned up death column
+COVID19_line_list_data_csv$Death_Group <- as.integer(COVID19_line_list_data_csv$death != 0)
+
+#death rate 
+sum(COVID19_line_list_data_csv$Death_Group) / nrow(COVID19_line_list_data_csv)
+
+#AGE
+# Claim: People who die are older
+dead = subset(COVID19_line_list_data_csv, Death_Group == 1)
+alive = subset(COVID19_line_list_data_csv, Death_Group == 0)
+mean(dead$age, na.rm = TRUE)
+mean(alive$age, na.rm = TRUE)
+
+# is this statistically significant?
+t.test(alive$age, dead$age, alternative= "two.sided", conf.level = 0.95)
+
+# normally, i f -value < 0.05, we reject null hypothesis
+# here, p-value ~ 0, so we reject the null hypothesis and 
+# concluded that this is statistically significant 
+
+#GENDER
+# Claim: Gender has no effect
+men = subset(COVID19_line_list_data_csv, gender == "male") #8.5%
+women = subset(COVID19_line_list_data_csv, gender == "female") #3.7%
+mean(men$Death_Group, na.rm = TRUE)
+mean(women$Death_Group, na.rm = TRUE)
+
+# is this statistically significant?
+t.test(men$Death_Group, women$Death_Group, alternative= "two.sided", conf.level = 0.99)
+
+# 99% confidence: men have from 0.8% to 8.8% higher chance of dying 
+# p-value = 0.002 < 0.05 so this is statistically significant -- That men have higher death rate in this example than women and is represent by the population,
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline 
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
