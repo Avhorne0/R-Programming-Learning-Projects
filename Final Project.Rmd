@@ -1,0 +1,112 @@
+---
+title: "Final Project"
+author: "Aizsha Horne"
+date: "5/03/2022"
+output:
+  word_document:
+    toc: yes
+    number_section: yes
+    highlight: tango
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = TRUE)
+# Load the necessary packages
+library(dplyr)
+library(readr)
+library(ggcorrplot)
+library(ggplot2)
+library(lmtest)
+mtcars <- read_csv("mtcars.csv")
+```
+
+# Problem 1
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+cor(mtcars) ## Produce a correlation for the table
+corr <- round(cor(mtcars), 1)
+corr
+ggcorrplot(corr)
+
+# Outliners an relatioship between Drat and MPG
+ggplot(data = mtcars, mapping = aes(x = drat,y = mpg,)) +
+  geom_point(alpha = .7,
+             size = 3) +
+  geom_smooth(method = "lm",
+              se = FALSE, # se indicates if display confidence interval around smooth
+              size = 1.5)
+
+# run the simple regression model
+mtcarss <- lm(mpg ~ drat, data = mtcars)
+# summarize the results
+summary(mtcarss)
+"We can see the median of the regression (i.e., -0.2095) is close to 0, which indicates its a good fit of the model"
+"for every one ratio increase in rear axle gears , the model predicts an increase of 7.678 mpg."
+"Our model shows that rear axle ratio spending is strongly significantly related to mpg."
+"Our model shows that RSE is close to 0, which indicates a good fit of the model. "
+"Our model shows R-Square of 0.464, which is not acceptable."
+"Our model shows a very small p-value, which indicates a good fit of the model"
+
+qqnorm(resid(mtcarss), col = "burlywood")
+qqline(resid(mtcarss), col = "darkorange", lwd = 2)
+shapiro.test(resid(mtcarss))
+# the large p-value (i.e., >0.05) indicates the normality of the residuals.
+bptest(mtcarss)
+#the large p-value (i.e., More than 0.05) indicates homoscedasticity should be the issue. 
+dwtest(mtcarss)
+# the large p-value (i.e., >0.05) indicates that residuals are independent.
+
+
+# calculate the MPG value for each of the original data points
+predict(mtcarss)
+# predict the MPG with rear axle ratio of 5 using the mtcarss
+predict(mtcarss, newdata = data.frame(drat = 5))
+```
+
+### Comments:
+*  Make your interpretations and comments here
+* 
+* 
+
+# Problem 2
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+auto <- filter(mtcars, am == "0")
+manual <- filter(mtcars,am == "1")
+
+# run the simple regression model
+auto_lm <- lm(mpg ~ am, data = auto)
+# summarize the results
+summary(auto_lm)
+
+# run the simple regression model
+manual_lm <- lm(mpg ~ am, data = manual)
+# summarize the results
+summary(manual_lm)
+
+manual_l2m <- lm(mpg ~ am, data = mtcars)
+# summarize the results
+summary(manual_l2m) 
+
+"We can see the median of the regression for auto is .1526 whereas manual is -1.592, which indicates while manual is lower the auto is closer to 0 which indicates good fit of the model"
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline 
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
+
+## headline
+```{r tidy = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+
+```
